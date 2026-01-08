@@ -1,0 +1,37 @@
+name: Build
+env:
+    application: ${{ github.event.repository.name }}
+    java-version: 21 # The Java version to use for building. Please see here for valid values https://github.com/actions/setup-java
+on:
+    workflow_dispatch:
+    push:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout application repo
+                uses: actions/checkout@v3
+
+            -   name: Setup Java
+                uses: actions/setup-java@v3
+                with:
+                    java-version: ${{ env.java-version }} # The JDK version to make available on the path.
+                    distribution: 'temurin'
+                    java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+                    architecture: x64 # (x64 or x86) - defaults to x64
+                    settings-path: /tmp/settings.xml # work around to a bug in
+
+            -   name: Cache local Maven repository
+                uses: actions/cache@v3
+                with:
+                    path: ~/.m2/repository
+                    key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+                    restore-keys: ${{ runner.os }}-maven
+
+            -   name: Maven Test
+                run: ./mvnw test --batch-mode -Dmaven.test.failure.ignore=true
+
+            -   name: Build with Maven
+                run: mvn -B package --file pom.xml

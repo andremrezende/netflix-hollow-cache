@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!-- Checkstyle configuration based on Google Java Style Guide -->
+<module name="Checker">
+    <property name="charset" value="UTF-8"/>
+    <property name="severity" value="error"/>
+    <property name="fileExtensions" value="java, properties, xml"/>
+
+    <!-- Regra correta de tamanho de linha, fora do TreeWalker -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+    </module>
+
+    <module name="TreeWalker">
+        <!-- Regras de nomenclatura -->
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern"
+                     value="Type name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="MemberName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern"
+                     value="Member name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="ParameterName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern"
+                     value="Parameter name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="LocalVariableName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern"
+                     value="Local variable name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="ClassTypeParameterName">
+            <property name="format" value="^[A-Z][0-9]?$"/>
+            <message key="name.invalidPattern"
+                     value="Class type parameter name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="MethodName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*(_[a-z][a-zA-Z0-9]*)*$"/>
+            <message key="name.invalidPattern"
+                     value="Method name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        
+        <!-- Regras de espaçamento -->
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+        </module>
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround">
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
+            <property name="allowEmptyLoops" value="true"/>
+            <property name="allowEmptyLambdas" value="true"/>
+            <property name="allowEmptyCatches" value="true"/>
+        </module>
+        
+        <!-- Regras de blocos -->
+        <module name="NeedBraces">
+            <property name="allowSingleLineStatement" value="true"/>
+            <property name="tokens" value="LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO"/>
+        </module>
+        <module name="LeftCurly"/> <!-- Chaves à esquerda no mesmo local da declaração -->
+        <module name="RightCurly"/> <!-- Chaves à direita alinhadas com a declaração de abertura -->
+        
+        <!-- Outras regras -->
+        <module name="EmptyStatement"/>
+        <module name="InnerTypeLast"/>
+        <module name="ModifierOrder"/>
+        
+        <!-- Javadoc -->
+        <module name="JavadocMethod">
+            <property name="allowMissingParamTags" value="true"/>
+            <property name="allowMissingReturnTag" value="true"/>
+            <property name="allowedAnnotations" value="Override, Test"/>
+        </module>
+    </module>
+</module>
