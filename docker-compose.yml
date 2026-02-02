@@ -1,0 +1,40 @@
+services:
+  hollow-producer:
+    build:
+      context: . # Ponto (.) significa a pasta atual
+      dockerfile: Dockerfile # O nome do seu arquivo Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - hollow_storage:/hollow-data
+    environment:
+      - HOLLOW_PATH=/hollow-data
+
+  hollow-consumer-1:
+    build:
+      context: .
+    ports:
+      - "8081:8081"
+    volumes:
+      - hollow_storage:/hollow-data:ro  # read-only para segurança
+    environment:
+      - SERVER_PORT=8081
+      - HOLLOW_PATH=/hollow-data
+    depends_on:
+      - hollow-producer
+
+  hollow-consumer-2:
+    build:
+      context: .
+    ports:
+      - "8082:8082"
+    volumes:
+      - hollow_storage:/hollow-data:ro  # read-only para segurança
+    environment:
+      - SERVER_PORT=8082
+      - HOLLOW_PATH=/hollow-data
+    depends_on:
+      - hollow-producer
+
+volumes:
+  hollow_storage:
